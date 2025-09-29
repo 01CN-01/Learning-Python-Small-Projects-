@@ -10,8 +10,10 @@ def view():
     print(tasks)
 
 def delete():
+    print(tasks)
     delete_choice = input("What would you like to delete in your lists? ")
-    del list[delete_choice - 1] #deletes that choice they have selected
+    delete_choice = int(delete_choice)
+    del tasks[delete_choice - 1] #deletes that choice they have selected
     print("Your have successfully deleted it")
 
 def exit_program():
