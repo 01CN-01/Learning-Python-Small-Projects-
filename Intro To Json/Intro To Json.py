@@ -22,9 +22,9 @@ def program():
 def end_program():
     while True:
         yes_no = input("Would you like to continue? (Y/N): ").lower()
-        if yes_no == "yes":
+        if yes_no == "y":
             program()
-        elif yes_no == "no":
+        elif yes_no == "n":
             print("Goodbye.")
             break
         else:
