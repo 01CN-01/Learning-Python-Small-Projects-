@@ -15,9 +15,16 @@ def program():
         print(f"You have added {name}, who is {age} years old.")
         user_dict = {"name": name, "age": age}
         user.append(user_dict)
-# Creates file and dumps user in file
-    with open("user_database.json", "w") as f:
-        json.dump({"user":user}, f, indent = 4 )
+# Grabs old data from file and adds it with new data.
+        try:
+            with open("user_database.json", "r") as f:
+                user_data = json.load(f)
+                user_data.append(user)
+                json.dump({"user": user})
+                
+        except:
+            with open("user_database.json", "w") as f:
+                json.dump({"user": user}, f, indent = 4 )
 
 def end_program():
     while True:
