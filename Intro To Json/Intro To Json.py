@@ -1,9 +1,10 @@
 
 import json
 
-user = []
-
 def program():
+
+    user = []
+
     try:
         loop = int(input("How many users do you want to add?: "))
     except ValueError:
@@ -16,15 +17,19 @@ def program():
         user_dict = {"name": name, "age": age}
         user.append(user_dict)
 # Grabs old data from file and adds it with new data.
-        try:
-            with open("user_database.json", "r") as f:
-                user_data = json.load(f)
-                user_data.append(user)
-                json.dump({"user": user})
-                
-        except:
-            with open("user_database.json", "w") as f:
-                json.dump({"user": user}, f, indent = 4 )
+    try:
+        with open("user_database.json", "r") as f:
+            old_user_data = json.load(f)
+            old_user_data["user"].extend(user)
+
+        with open("user_database.json", "w") as f:
+            json.dump(old_user_data, f, indent = 4)
+
+    except FileNotFoundError:
+        with open("user_database.json", "w") as f:
+            json.dump({"user": user} , f, indent = 4)
+
+
 
 def end_program():
     while True:
