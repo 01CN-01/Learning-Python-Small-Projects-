@@ -16,15 +16,16 @@ def program():
         print(f"You have added {name}, who is {age} years old.")
         user_dict = {"name": name, "age": age}
         user.append(user_dict)
-# Grabs old data from file and adds it with new data.
+
     try:
+# If file Exist, merge old and new data and write it.
         with open("user_database.json", "r") as f:
             old_user_data = json.load(f)
             old_user_data["user"].extend(user)
 
         with open("user_database.json", "w") as f:
             json.dump(old_user_data, f, indent = 4)
-
+# If file doesnt exist write file.
     except FileNotFoundError:
         with open("user_database.json", "w") as f:
             json.dump({"user": user} , f, indent = 4)
