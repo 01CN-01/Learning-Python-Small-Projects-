@@ -25,7 +25,7 @@ def program():
 
         with open("user_database.json", "w") as f:
             json.dump(old_user_data, f, indent = 4)
-# If file doesnt exist write file.
+# If file doesn't exist write file.
     except FileNotFoundError:
         with open("user_database.json", "w") as f:
             json.dump({"user": user} , f, indent = 4)
