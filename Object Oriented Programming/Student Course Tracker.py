@@ -1,14 +1,3 @@
-# --------Course--------
-# Subject
-# Teacher 
-# Student List
-
-# Computer Science → Mr. Neizer
-# Math → Mrs. Patel
-# English → Ms. Parker
-# Geography → Mr. Luvaluka
-# Art → Mrs. Patel
-
 # --------Student--------
 # Name
 # Age
@@ -18,8 +7,8 @@
 # --------Program--------
 # Add student
 # Remove student
-# Add student to courses
-# Remove students from courses
+# View Students
+# End Program
 
 
 print("Student Course Tracker")
@@ -28,17 +17,6 @@ print("2. Remove Student")
 print("3. Add student to course")
 print("4. Remove student from course")
 print("5. Exit")
-student_list = []
-
-class Student:
-    def __init__(self, firstName, lastName, age, gender):
-        self.FirstName = firstName
-        self.LastName = lastName
-        self.Age = age
-        self.Gender = gender
-# Takes all values and "stores it"
-    def __str__(self):
-        return f"{self.FirstName} {self.LastName}, Age: {self.Age}, Gender: {self.Gender}"
 
 def add_student():
     print("---------- Add Student ----------")
@@ -51,7 +29,12 @@ def add_student():
          first_name = input("Enter First Name: ")
          last_name = input("Enter Last Name: ")
          age = input("Enter Age: ")
-         gender = input("Enter Gender:")
+         gender = input("Enter Gender: ")
+         
+         if create_students > 1:
+             print("------Enter Other Student------")
+         else:
+             print("")
          
          student_info = Student(first_name, last_name, age, gender)
          
@@ -73,8 +56,30 @@ def remove_student():
     delete_index = delete_index - 1
     print("Data deleted ------->", student_list[delete_index])
     del student_list[delete_index]
-        
 
+def view_students():
+    for students in student_list:
+        print(students)
+    
+    print("-------------------")
+    
+
+def end_program():
+    print("Goodbye.")
+    
+########################################################################
+
+student_list = []
+
+class Student:
+    def __init__(self, firstName, lastName, age, gender):
+        self.FirstName = firstName
+        self.LastName = lastName
+        self.Age = age
+        self.Gender = gender
+# Takes all values and "stores it"
+    def __str__(self):
+        return f"{self.FirstName} {self.LastName}, Age: {self.Age}, Gender: {self.Gender}"
 
 while True:
     option = int(input("Choose an option: "))
@@ -83,10 +88,8 @@ while True:
     elif option == 2:
         remove_student()
     elif option == 3:
-        student_add_course()
+        view_students()
     elif option == 4:
-        student_remove_course()
-    elif option == 5:
         end_program()
         break
     else:
