@@ -1,0 +1,11 @@
+{
+    "users": [
+        {
+            "social": "Twitter",
+            "first_name": "ff",
+            "last_name": "ff",
+            "email": "ff@ff.com",
+            "password": "ff"
+        }
+    ]
+}
