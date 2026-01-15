@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./User Account System/Classes"
+    ]
+}
