@@ -206,10 +206,10 @@ class UserAccountSystem:
 # Filtered Search for NAME                        
             elif option == 2:
                 counter = 0
-                name_input = input_checker("Enter a name to search by: ")
+                name_input = input_checker("Enter the firstname to search by: ")
                 
                 for account in self.account_list:
-                    if account["name"] == name_input:
+                    if account["firstname"] == name_input:
                         counter += 1
                         print(f"{counter})")
                         print(f"Social: {account["social"]}")
