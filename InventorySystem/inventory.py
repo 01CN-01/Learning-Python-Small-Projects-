@@ -57,7 +57,7 @@ class InventorySystem:
     def view_inventory_system(self):
         counter = 0
         found = False
-        
+        grand_total = 0
         for iteminfo in self.inventory_system_list:
             counter += 1
             found = True
@@ -65,6 +65,15 @@ class InventorySystem:
             print(f"Quantity: {int(iteminfo['Quantity'])}")
             print(f"Item: {iteminfo['Item']}")
             print(f"Price: £{float(iteminfo['Price']):.2f}")
+            
+            price = float(iteminfo["Price"]) # Convert into Number
+            quantity = int(iteminfo["Quantity"]) # Convert into Number
+# Prints Total            
+            total = price * quantity
+            grand_total += total
+        print("----------------")    
+        print(f"|Total = £{grand_total:.2f}|")
+        print("----------------")  
 # Couldnt find Data so set       
         if found == False:
             print("No Data Found.")

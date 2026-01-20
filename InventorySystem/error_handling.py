@@ -2,7 +2,7 @@ def int_checker(prompt):
     while True:
         try:
             return int(input(prompt))
-        except:
+        except ValueError:
             print("Enter a number.")
 
 def input_checker(prompt):
@@ -18,5 +18,5 @@ def round_number(prompt):
         try:
             answer = float(input(prompt))
             return round(answer, 2)
-        except:
+        except ValueError:
             print("Enter a Number.")
