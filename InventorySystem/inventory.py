@@ -30,7 +30,7 @@ class InventorySystem:
             
             if quantity > 1:
                 print("-" * 40)
-                print(f"You have added {item_info.quantity} {item_info.item}s, which is £{item_info.price:.2f}")
+                print(f"You have added {item_info.quantity} {item_info.item}s, which is £{item_info.price:.2f} per {item_info.item}")
                 print("-" * 40)
             else:
                 print("-" * 40)
@@ -64,7 +64,7 @@ class InventorySystem:
             print(f"--------{counter}--------")
             print(f"Quantity: {int(iteminfo['Quantity'])}")
             print(f"Item: {iteminfo['Item']}")
-            print(f"Price: £{float(iteminfo['Price']):.2f}")
+            print(f"Price: £{float(iteminfo['Price']):.2f} per {iteminfo["Item"]}")
             
             price = float(iteminfo["Price"]) # Convert into Number
             quantity = int(iteminfo["Quantity"]) # Convert into Number
