@@ -8,7 +8,6 @@ The goal of this project is to practice using SQL with Python by storing and man
 ## Features (Planned / In Progress)
 - Add new students and courses
 - View all student records
-- Update existing records
 - Delete records
 - Store data using SQLite
 
