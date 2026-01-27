@@ -154,7 +154,7 @@ class HelpDeskSystem:
         print(f"======= {firstname} {lastname} ======= ")
         print("1) Create Ticket")
         print("2) View Ticket")
-        print("3) Edit Ticket")
+        print("3) Edit Ticket") # Staff/Admin can edit any ticket
         print("4) Delete Ticket")
         print("5) Menu")
         print("=======================================")
@@ -179,7 +179,7 @@ class HelpDeskSystem:
                 
                 self.conn.commit() # Confirms it
             elif account_menu_option == 2:
-                if self.user[5] == "User": # User only abke to view their own
+                if self.user[5] == "User": # User only able to view their own
                     self.cursor.execute(
                         """
                         SELECT 
@@ -225,9 +225,149 @@ class HelpDeskSystem:
                     
                     if not found:
                         print("No Tickets Found.")
-                
             elif account_menu_option == 3:
-                pass
+                if self.user[5] == "User": # If its User
+                    self.cursor.execute(
+                        """
+                        SELECT
+                            *
+                        FROM
+                            tickets
+                        WHERE
+                            created_by = ?
+                        """,
+                        (self.user[0],)
+                    )
+                    
+                    ticket_create_by_user = self.cursor.fetchall()
+                    found = False
+                    for ticket in ticket_create_by_user:
+                            found = True
+                            print(f"TicketID: {ticket[0]}")
+                            print(f"Subject: {ticket[2]}")
+                            print(f"Description: {ticket[3]}")
+                            print(f"Created At: {ticket[4]}")
+                            print("-" * 30)
+                    
+                    if not found:
+                        print("No Tickets Found.")
+                    else:
+                        ticketid_edit = int_checker("What ticket would you like to edit? (Enter using ticketID): ")
+                        select = input_checker("What do you want too change? (Subject or Description): ").lower()
+                        if select == "subject":
+                            select_change = input_checker("Subject: ")
+                            self.cursor.execute(
+                                """
+                                UPDATE
+                                    tickets 
+                                SET 
+                                    subject = ?
+                                WHERE
+                                    ticketid = ? AND created_by = ?
+                                """,
+                                (select_change, 
+                                 ticketid_edit,
+                                 self.user[0],)
+                            )
+                            if self.cursor.rowcount == 1:
+                                print("Successfully Changed.")
+                                self.conn.commit()
+                            else:
+                                print("Not Found or Doesnt Belong To You.")
+                        elif select == "description":
+                            select_change = input_checker("Description: ")
+                            self.cursor.execute(
+                                """
+                                UPDATE
+                                    tickets 
+                                SET 
+                                    description = ?
+                                WHERE
+                                    ticketid = ? AND created_by = ?
+                                """,
+                                (select_change, 
+                                 ticketid_edit,
+                                 self.user[0],)
+                            )
+                            if self.cursor.rowcount == 1:
+                                print("Successfully Changed.")
+                                self.conn.commit()
+                            else:
+                                print("Not Found or Doesnt Belong To You.")
+                        else:
+                            print("Invalid Option.")
+                else: #Staff / Admin
+                    self.cursor.execute(
+                        """
+                        SELECT
+                            *
+                        FROM
+                            tickets
+                        """
+                    )
+                    
+                    ticket_create_by_user = self.cursor.fetchall()
+                    found = False
+                    for ticket in ticket_create_by_user:
+                            found = True
+                            print(f"TicketID: {ticket[0]}")
+                            print(f"StudentID: {ticket[1]}")
+                            print(f"Subject: {ticket[2]}")
+                            print(f"Description: {ticket[3]}")
+                            print(f"Created At: {ticket[4]}")
+                            print("-" * 30)
+                    
+                    if not found:
+                        print("No Tickets Found.")
+                    else:
+                        ticketid_edit = int_checker("What ticket would you like to edit? (Enter using ticketID): ")
+                        select = input_checker("What do you want too change? (Subject or Description): ").lower()
+                        # Subject Selection
+                        if select == "subject":
+                            select_change = input_checker("Subject: ")
+                            self.cursor.execute(
+                                """
+                                UPDATE
+                                    tickets 
+                                SET 
+                                    subject = ?
+                                WHERE
+                                    ticketid = ?
+                                """,
+                                (select_change, 
+                                 ticketid_edit)
+                            )
+                            if self.cursor.rowcount == 1:
+                                print("Successfully Changed.")
+                                self.conn.commit()
+                            else:
+                                print("Not Found or Doesnt Belong To You.") 
+                        # Description Selection   
+                        elif select == "description":
+                            select_change = input_checker("Description: ")
+                            self.cursor.execute(
+                                """
+                                UPDATE
+                                    tickets 
+                                SET 
+                                    description = ?
+                                WHERE
+                                    ticketid = ?
+                                """,
+                                (select_change, 
+                                 ticketid_edit,)
+                            )
+                            if self.cursor.rowcount == 1:
+                                print("Successfully Changed.")
+                                self.conn.commit()
+                            else:
+                                print("Not Found or Doesnt Belong To You.")
+                        else:
+                            print("Invalid Option.")
+                    
+                        
+                    
+                    
             elif account_menu_option == 4:
                 pass
             elif account_menu_option == 5:
