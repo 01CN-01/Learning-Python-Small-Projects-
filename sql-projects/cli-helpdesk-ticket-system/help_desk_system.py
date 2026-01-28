@@ -364,12 +364,92 @@ class HelpDeskSystem:
                                 print("Not Found or Doesnt Belong To You.")
                         else:
                             print("Invalid Option.")
-                    
-                        
-                    
-                    
             elif account_menu_option == 4:
-                pass
+                if self.user[5] == "User":
+                    self.cursor.execute(
+                        """
+                        SELECT
+                            *
+                        FROM
+                            tickets
+                        WHERE
+                            created_by = ?
+                        """,
+                        (self.user[0],)
+                    )
+                    ticket_create_by_user = self.cursor.fetchall()
+                    found = False
+                    for ticket in ticket_create_by_user:
+                            found = True
+                            print(f"TicketID: {ticket[0]}")
+                            print(f"Subject: {ticket[2]}")
+                            print(f"Description: {ticket[3]}")
+                            print(f"Created At: {ticket[4]}")
+                            print("-" * 30)
+                    
+                    if not found:
+                        print("No Tickets Found.") 
+                    else:
+                        delete_selection = int_checker("What ticket do u want too delete? (Select by ID): ")
+                        self.cursor.execute(
+                            """
+                            DELETE
+                            FROM
+                                tickets
+                            WHERE
+                                ticketid = ? AND
+                                created_by = ?
+                            """,
+                            (delete_selection,
+                             self.user[0],)
+                        )
+                        self.conn.commit()
+                        rowcount = self.cursor.rowcount
+                        if rowcount == 1:
+                            print("Successfully Delete Ticket.")
+                        else:
+                            print("Ticket Doesnt Exist.")
+                else:
+                    self.cursor.execute(
+                        """
+                        SELECT
+                            *
+                        FROM
+                            tickets
+                        """
+                    )
+                    ticket_create_by_user = self.cursor.fetchall()
+                    found = False
+                    for ticket in ticket_create_by_user:
+                            found = True
+                            print(f"TicketID: {ticket[0]}")
+                            print(f"StudentID: {ticket[1]}")
+                            print(f"Subject: {ticket[2]}")
+                            print(f"Description: {ticket[3]}")
+                            print(f"Created At: {ticket[4]}")
+                            print("-" * 30)
+                    
+                    if not found:
+                        print("No Tickets Found.") 
+                    else:
+                        delete_selection = int_checker("What ticket do u want too delete? (Select by ID): ")
+                        self.cursor.execute(
+                            """
+                            DELETE
+                            FROM
+                                tickets
+                            WHERE
+                                ticketid = ?
+                            """,
+                            (delete_selection,)
+                        )
+                        self.conn.commit()
+                        rowcount = self.cursor.rowcount
+                        if rowcount == 1:
+                            print("Successfully Delete Ticket.")
+                        else:
+                            print("Ticket Doesnt Exist.")                  
+                                      
             elif account_menu_option == 5:
                 return
             else:
