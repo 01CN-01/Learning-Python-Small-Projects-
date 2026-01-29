@@ -1,5 +1,5 @@
 import sqlite3
-from getpass import getpass
+import bcrypt
 from error_handling import int_checker, input_checker, email_format_checker, password_checker, is_password_secure
 
 # Login
@@ -85,25 +85,32 @@ class HelpDeskSystem:
             email = email_format_checker("Enter Email: ")
             password = password_checker("Enter Password: ")
 # Validation of Email / Password            
+            # Fetch user by email only
             self.cursor.execute(
                 """
                 SELECT 
-                    studentid, firstname, lastname, email, password, role
+                    studentid, firstname, lastname, email, password, role 
                 FROM 
-                    users WHERE email = ? AND password = ?
+                    users 
+                WHERE 
+                    email = ?
                 """,
-                (email, 
-                 password)
-                )
-            
+                (email,)
+            )
             self.user = self.cursor.fetchone()
-            
+
             if self.user:
-                print("------- Sucessfully Logged In -------")
-                return True
+                db_hashed_pw = self.user[4]  # Comparing Hash password
+                if bcrypt.checkpw(password.encode('utf-8'), db_hashed_pw.encode('utf-8')):
+                    print("------- Successfully Logged In -------")
+                    return True
+                else:
+                    print("------- Invalid Password -------")
+                    return None
             else:
-                print("-------Invalid Credentials -------.")
+                print("------- Email Not Found -------")
                 return None
+
     
     def register(self):
         print("========== REGISTER ==========")
@@ -119,7 +126,8 @@ class HelpDeskSystem:
                 if confirm_password != password: # Confirmation of Password
                     print("Password Does Not Match")
                 else:
-                    user_class_info = User(first_name, last_name, email, password)
+                    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                    user_class_info = User(first_name, last_name, email, hashed_password)
                 # Writing DATA   
                     self.cursor.execute(
                         """
